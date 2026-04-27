@@ -1,0 +1,20 @@
+{
+  "name": "effect-tsgo-cf-ts2589-repro",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Minimal reproduction for plugin-only TS2589 in @effect/tsgo when the effectInFailure rule walks a user file that imports @cloudflare/workers-types.",
+  "scripts": {
+    "postinstall": "effect-tsgo patch",
+    "tsgo:plugin": "tsgo --noEmit -p tsconfig.json --extendedDiagnostics",
+    "tsgo:no-plugin": "tsgo --noEmit -p tsconfig.no-plugin.json --extendedDiagnostics",
+    "tsgo:rule-off": "tsgo --noEmit -p tsconfig.rule-off.json --extendedDiagnostics",
+    "verify": "bun run tsgo:no-plugin && bun run tsgo:rule-off && (bun run tsgo:plugin && exit 1 || echo '\\n^^ expected TS2589 above when plugin is enabled with default rule severities')"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20251024.0",
+    "@effect/tsgo": "0.5.1",
+    "@typescript/native-preview": "7.0.0-dev.20260425.1",
+    "typescript": "5.9.3"
+  }
+}
